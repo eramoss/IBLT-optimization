@@ -1,19 +1,17 @@
 SOURCES = iblt.cpp murmurhash3.cpp utilstrencodings.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
-TARGET = iblt
+TARGET = libiblt.a
 
-CC = g++ -O3  -fPIC -Wno-c++11-extensions
-
+CC = g++ -O3 -fPIC -Wno-c++11-extensions
 
 all: $(TARGET)
 
 clean:
-	rm -f $(OBJECTS) $(TARGET) libiblt.so
+	rm -f $(OBJECTS) $(TARGET)
 
 %.o: %.cpp iblt.h
-	$(CC)  $(FLAGS) -c  $<
+	$(CC) $(FLAGS) -c $<
 
-iblt: $(OBJECTS)
-	g++ $(OBJECTS) $(FLAGS) -shared -o libiblt.so
-
+$(TARGET): $(OBJECTS)
+	ar rcs $@ $^
